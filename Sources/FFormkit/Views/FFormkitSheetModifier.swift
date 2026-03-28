@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct FeedbackSheetModifier: ViewModifier {
+struct FFormkitSheetModifier: ViewModifier {
     let apiKey: String
     @Binding var isPresented: Bool
     var onSubmit: ((String) -> Void)?
@@ -9,7 +9,7 @@ struct FeedbackSheetModifier: ViewModifier {
     func body(content: Content) -> some View {
         content.sheet(isPresented: $isPresented) {
             NavigationStack {
-                FeedbackView(apiKey: apiKey, onSubmit: { id in
+                FFormkitView(apiKey: apiKey, onSubmit: { id in
                     isPresented = false
                     onSubmit?(id)
                 }, onError: onError)
@@ -25,19 +25,19 @@ struct FeedbackSheetModifier: ViewModifier {
 }
 
 public extension View {
-    /// Present a FeedbackKit feedback sheet.
+    /// Present a FFormkit feedback sheet.
     ///
     /// ```swift
     /// Button("Send Feedback") { showFeedback = true }
-    ///     .feedbackSheet(apiKey: "fb_live_...", isPresented: $showFeedback)
+    ///     .fformkitSheet(apiKey: "fb_live_...", isPresented: $showFeedback)
     /// ```
-    func feedbackSheet(
+    func fformkitSheet(
         apiKey: String,
         isPresented: Binding<Bool>,
         onSubmit: ((String) -> Void)? = nil,
         onError: ((Error) -> Void)? = nil
     ) -> some View {
-        modifier(FeedbackSheetModifier(
+        modifier(FFormkitSheetModifier(
             apiKey: apiKey,
             isPresented: isPresented,
             onSubmit: onSubmit,

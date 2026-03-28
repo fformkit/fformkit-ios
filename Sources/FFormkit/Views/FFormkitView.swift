@@ -1,13 +1,13 @@
 import SwiftUI
 import PhotosUI
 
-/// A fully themed feedback form that loads its configuration from the FeedbackKit API.
-public struct FeedbackView: View {
+/// A fully themed feedback form that loads its configuration from the FFormkit API.
+public struct FFormkitView: View {
     let apiKey: String
     var onSubmit: ((String) -> Void)?
     var onError: ((Error) -> Void)?
 
-    @StateObject private var vm: FeedbackViewModel
+    @StateObject private var vm: FFormkitViewModel
 
     public init(
         apiKey: String,
@@ -17,7 +17,7 @@ public struct FeedbackView: View {
         self.apiKey = apiKey
         self.onSubmit = onSubmit
         self.onError = onError
-        _vm = StateObject(wrappedValue: FeedbackViewModel(apiKey: apiKey))
+        _vm = StateObject(wrappedValue: FFormkitViewModel(apiKey: apiKey))
     }
 
     public var body: some View {
@@ -163,8 +163,8 @@ public struct FeedbackView: View {
             guard let id else { return }
             onSubmit?(id)
         }
-        .onChange(of: vm.submittedError) { err in
-            guard let err else { return }
+        .onChange(of: vm.errorCount) { _, _ in
+            guard let err = vm.submittedError else { return }
             onError?(err)
         }
     }

@@ -2,26 +2,26 @@
 import PackageDescription
 
 let package = Package(
-    name: "FeedbackKit",
+    name: "FFormkit",
     platforms: [
         .iOS(.v16),
         .macOS(.v13),
     ],
     products: [
         .library(
-            name: "FeedbackKit",
-            targets: ["FeedbackKit"]
+            name: "FFormkit",
+            targets: ["FFormkit"]
         ),
     ],
     targets: [
         .target(
-            name: "FeedbackKit",
-            path: "Sources/FeedbackKit"
+            name: "FFormkit",
+            path: "Sources/FFormkit"
         ),
         .testTarget(
-            name: "FeedbackKitTests",
-            dependencies: ["FeedbackKit"],
-            path: "Tests/FeedbackKitTests"
+            name: "FFormkitTests",
+            dependencies: ["FFormkit"],
+            path: "Tests/FFormkitTests"
         ),
     ]
 )

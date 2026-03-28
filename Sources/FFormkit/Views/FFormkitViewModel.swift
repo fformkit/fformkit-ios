@@ -2,9 +2,9 @@ import SwiftUI
 import PhotosUI
 
 @MainActor
-final class FeedbackViewModel: ObservableObject {
+final class FFormkitViewModel: ObservableObject {
     let apiKey: String
-    private let api = FeedbackKitAPI()
+    private let api = FFormkitAPI()
 
     // Config state
     @Published var config: FormConfig?
@@ -22,6 +22,7 @@ final class FeedbackViewModel: ObservableObject {
     @Published var successMessage: String?
     @Published var submittedID: String?
     @Published var submittedError: Error?
+    @Published var errorCount: Int = 0
 
     // Error alert
     @Published var showError = false
@@ -49,7 +50,7 @@ final class FeedbackViewModel: ObservableObject {
 
         isSubmitting = true
         let device = DeviceInfo.current
-        let payload = FeedbackSubmission(
+        let payload = FFormkitSubmission(
             apiKey: apiKey,
             token: config.token,
             openedAt: config.openedAt,
@@ -72,6 +73,7 @@ final class FeedbackViewModel: ObservableObject {
                 : "Thanks for your feedback!"
         } catch {
             submittedError = error
+            errorCount += 1
             errorMessage = error.localizedDescription
             showError = true
         }

@@ -1,7 +1,7 @@
 import XCTest
-@testable import FeedbackKit
+@testable import FFormkit
 
-final class FeedbackKitTests: XCTestCase {
+final class FFormkitTests: XCTestCase {
 
     func testFormConfigDecoding() throws {
         let json = """

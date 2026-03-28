@@ -3,7 +3,7 @@ import SwiftUI
 import UIKit
 #endif
 
-/// The main entry point for the FeedbackKit Swift SDK.
+/// The main entry point for the FFormkit Swift SDK.
 ///
 /// **SwiftUI usage (recommended):**
 /// ```swift
@@ -11,29 +11,29 @@ import UIKit
 ///
 /// var body: some View {
 ///     Button("Send Feedback") { showFeedback = true }
-///         .feedbackSheet(apiKey: "fb_live_...", isPresented: $showFeedback)
+///         .fformkitSheet(apiKey: "fb_live_...", isPresented: $showFeedback)
 /// }
 /// ```
 ///
 /// **Inline SwiftUI view:**
 /// ```swift
-/// FeedbackView(apiKey: "fb_live_...")
+/// FFormkitView(apiKey: "fb_live_...")
 /// ```
 ///
 /// **UIKit usage:**
 /// ```swift
-/// FeedbackKit.present(from: self, apiKey: "fb_live_...") { id in
+/// FFormkit.present(from: self, apiKey: "fb_live_...") { id in
 ///     print("Feedback submitted:", id)
 /// }
 /// ```
-public enum FeedbackKit {
+public enum FFormkit {
 
     #if canImport(UIKit)
     /// Present the feedback form modally from a `UIViewController`.
     ///
     /// - Parameters:
     ///   - viewController: The presenting view controller.
-    ///   - apiKey: Your FeedbackKit project API key.
+    ///   - apiKey: Your FFormkit project API key.
     ///   - onSubmit: Called with the feedback ID on successful submission.
     ///   - onError: Called with the error if submission fails.
     public static func present(
@@ -42,7 +42,7 @@ public enum FeedbackKit {
         onSubmit: ((String) -> Void)? = nil,
         onError: ((Error) -> Void)? = nil
     ) {
-        let feedbackView = FeedbackView(apiKey: apiKey, onSubmit: { id in
+        let feedbackView = FFormkitView(apiKey: apiKey, onSubmit: { id in
             viewController.dismiss(animated: true)
             onSubmit?(id)
         }, onError: onError)

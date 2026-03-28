@@ -1,7 +1,7 @@
 import Foundation
 
 // POST body for /api/v1/submit
-struct FeedbackSubmission: Encodable {
+struct FFormkitSubmission: Encodable {
     let apiKey: String
     let token: String
     let openedAt: TimeInterval
