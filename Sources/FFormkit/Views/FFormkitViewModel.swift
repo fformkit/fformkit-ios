@@ -1,5 +1,8 @@
 import SwiftUI
 import PhotosUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 @MainActor
 final class FFormkitViewModel: ObservableObject {
@@ -46,9 +49,15 @@ final class FFormkitViewModel: ObservableObject {
     }
 
     func submit() async {
-        guard let config, !message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+        guard let config else { return }
+
+        guard !message.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            errorMessage = "Please enter a message."
+            return
+        }
 
         isSubmitting = true
+        errorMessage = nil
         let device = DeviceInfo.current
         let payload = FFormkitSubmission(
             apiKey: apiKey,
@@ -71,11 +80,19 @@ final class FFormkitViewModel: ObservableObject {
             successMessage = config.successMessage?.isEmpty == false
                 ? config.successMessage!
                 : "Thanks for your feedback!"
+            message = ""
+            email = ""
+            rating = 0
+            removeScreenshot()
+            Task {
+                try? await Task.sleep(nanoseconds: 2_000_000_000)
+                guard self.successMessage != nil else { return }
+                self.successMessage = nil
+            }
         } catch {
             submittedError = error
             errorCount += 1
-            errorMessage = error.localizedDescription
-            showError = true
+            errorMessage = "Something went wrong. Please try again."
         }
         isSubmitting = false
     }
@@ -102,7 +119,6 @@ final class FFormkitViewModel: ObservableObject {
                 // Image too large even at minimum quality — skip
                 removeScreenshot()
                 errorMessage = "Screenshot is too large. Please choose a smaller image."
-                showError = true
                 return
             }
         }
@@ -118,6 +134,7 @@ final class FFormkitViewModel: ObservableObject {
 
     // MARK: - Themed colors (with fallbacks)
 
+    var cornerRadius: CGFloat { CGFloat(config?.borderRadius ?? 8) }
     var primaryColor: Color { config?.color(for: config?.primaryColor, fallback: .blue) ?? .blue }
     var backgroundColor: Color { config?.color(for: config?.backgroundColor, fallback: Color(.systemBackground)) ?? Color(.systemBackground) }
     var titleColor: Color { config?.color(for: config?.titleColor, fallback: Color(.label)) ?? Color(.label) }
@@ -129,4 +146,24 @@ final class FFormkitViewModel: ObservableObject {
     var placeholderColor: Color { config?.color(for: config?.placeholderColor, fallback: Color(.placeholderText)) ?? Color(.placeholderText) }
     var buttonTextColor: Color { config?.color(for: config?.buttonTextColor, fallback: .white) ?? .white }
     var successColor: Color { config?.color(for: config?.successColor, fallback: .green) ?? .green }
+
+    var prefersDarkChrome: Bool {
+        #if canImport(UIKit)
+        let resolved = UIColor(backgroundColor)
+        var white: CGFloat = 0
+        if resolved.getWhite(&white, alpha: nil) {
+            return white < 0.5
+        }
+
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        if resolved.getRed(&red, green: &green, blue: &blue, alpha: nil) {
+            let luminance = (0.299 * red) + (0.587 * green) + (0.114 * blue)
+            return luminance < 0.5
+        }
+        #endif
+
+        return false
+    }
 }

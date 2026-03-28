@@ -47,17 +47,7 @@ public enum FFormkit {
             onSubmit?(id)
         }, onError: onError)
 
-        let hostingController = UIHostingController(rootView: NavigationStack {
-            feedbackView
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("Cancel") {
-                            viewController.dismiss(animated: true)
-                        }
-                    }
-                }
-        })
+        let hostingController = UIHostingController(rootView: feedbackView)
 
         hostingController.modalPresentationStyle = .formSheet
         viewController.present(hostingController, animated: true)

@@ -6,14 +6,13 @@ struct StarRatingView: View {
     var inactiveColor: Color
 
     var body: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: 8) {
             ForEach(1...5, id: \.self) { star in
-                Image(systemName: star <= rating ? "star.fill" : "star")
-                    .font(.title2)
+                Text("★")
+                    .font(.system(size: 34))
                     .foregroundColor(star <= rating ? activeColor : inactiveColor)
                     .onTapGesture {
-                        // Tap same star again to deselect
-                        rating = (rating == star) ? 0 : star
+                        rating = star
                     }
             }
         }

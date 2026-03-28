@@ -8,18 +8,10 @@ struct FFormkitSheetModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content.sheet(isPresented: $isPresented) {
-            NavigationStack {
-                FFormkitView(apiKey: apiKey, onSubmit: { id in
-                    isPresented = false
-                    onSubmit?(id)
-                }, onError: onError)
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("Cancel") { isPresented = false }
-                    }
-                }
-            }
+            FFormkitView(apiKey: apiKey, onSubmit: { id in
+                isPresented = false
+                onSubmit?(id)
+            }, onError: onError)
         }
     }
 }
