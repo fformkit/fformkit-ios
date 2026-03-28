@@ -159,14 +159,14 @@ public struct FFormkitView: View {
             }
             .padding(20)
         }
-        .onChange(of: vm.submittedID) { id in
+        .onChange(of: vm.submittedID, perform: { id in
             guard let id else { return }
             onSubmit?(id)
-        }
-        .onChange(of: vm.errorCount) { _, _ in
+        })
+        .onChange(of: vm.errorCount, perform: { _ in
             guard let err = vm.submittedError else { return }
             onError?(err)
-        }
+        })
     }
 
     @ViewBuilder
