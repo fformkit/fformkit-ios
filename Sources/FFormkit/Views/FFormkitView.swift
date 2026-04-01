@@ -118,6 +118,16 @@ public struct FFormkitView: View {
                     .multilineTextAlignment(.center)
                     .padding(.top, 12)
             }
+
+            if vm.config?.showBranding == true {
+                Text("Powered by FFormkit")
+                    .font(.system(size: 11))
+                    .foregroundColor(vm.brandingColor)
+                    .opacity(0.4)
+                    .frame(maxWidth: .infinity)
+                    .multilineTextAlignment(.center)
+                    .padding(.top, 14)
+            }
         }
         .padding(20)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)

@@ -35,12 +35,16 @@ public struct FormConfig: Codable {
     public let successColor: String?
     public let taglineColor: String?
 
+    // Branding
+    public let showBranding: Bool?
+
     // Layout
     public let borderRadius: Int?
     public let theme: String?
 
     enum CodingKeys: String, CodingKey {
         case token, openedAt = "opened_at"
+        case showBranding = "show_branding"
         case showRating = "show_rating"
         case showScreenshot = "show_screenshot"
         case showEmail = "show_email"

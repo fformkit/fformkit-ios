@@ -146,6 +146,7 @@ final class FFormkitViewModel: ObservableObject {
     var placeholderColor: Color { config?.color(for: config?.placeholderColor, fallback: Color(.placeholderText)) ?? Color(.placeholderText) }
     var buttonTextColor: Color { config?.color(for: config?.buttonTextColor, fallback: .white) ?? .white }
     var successColor: Color { config?.color(for: config?.successColor, fallback: .green) ?? .green }
+    var brandingColor: Color { prefersDarkChrome ? .white : .black }
 
     var prefersDarkChrome: Bool {
         #if canImport(UIKit)
